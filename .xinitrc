@@ -27,15 +27,17 @@ done
 # Setup display based on dpi_level
 # --------------------------------
 
+echo "DPI level: $dpi_level"
 case "$dpi_level" in
     normal)
+        echo "Loading Xresources"
         xrdb -load ~/.Xresources
 
         # Multi-head
-        xrandr --output eDP1 --mode 1600x900 --output HDMI1 \
-               --mode 1920x1080 --scale 1x1 --right-of eDP1
+        echo "Configuring multi-head display"
+        xrandr --output eDP1 --mode 1920x1080 --output HDMI1 --mode 1920x1080 --scale 1x1 --right-of eDP1
 
-
+        echo "Configuring GNOME scaling factor"
         gsettings set org.gnome.desktop.interface scaling-factor 1
         ;;
     hi)
@@ -55,7 +57,7 @@ xmodmap ~/.Xmodmap
 
 emacs --daemon
 
-nohup redshift -l 42.350294:-71.057129 >/dev/null 2>&1 &
+nohup redshift -l 42.3993266:-71.0396939 -t 6500:3000 -b 1.0:0.5 >/dev/null 2>&1 &
 
 urxvtd -q -f -o
 
@@ -64,6 +66,10 @@ urxvtd -q -f -o
 
 case "$window_manager" in
     dwm)
+        compton -fb -D 5
+
+        sh ~/.fehbg &
+
         dunst -follow keyboard -geometry 0-20-20 -fn "terminus 20" -key ctrl+BackSpace &
 
         while true; do
@@ -71,7 +77,7 @@ case "$window_manager" in
             sleep 1m
         done &
 
-        exec dwm
+        dbus-launch --exit-with-session dwm
         ;;
     gnome)
         exec gnome-session
