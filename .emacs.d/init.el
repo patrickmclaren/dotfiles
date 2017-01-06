@@ -10,10 +10,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'package)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(setq
+ package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                    ("org" . "http://orgmode.org/elpa/")
+                    ("melpa" . "http://melpa.org/packages/")
+                    ("melpa-stable" . "http://stable.melpa.org/packages/")))
 
 (package-initialize)
+(when (not package-archive-contents)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(require 'use-package)
 
 ;; Jump to init.el
 (global-set-key (kbd "S-C-M-i")
@@ -30,6 +37,8 @@
 (helm-mode 1)
 
 (helm-autoresize-mode 1)
+(helm-descbinds-mode)
+
 (setq helm-mode-fuzzy-match t)
 
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -97,6 +106,13 @@
 (setq mouse-wheel-progressive-speed nil)
 (setq mouse-wheel-follow-mouse 't)
 
+;; avy - jump to text
+(global-set-key (kbd "C-:") 'avy-goto-char)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Mouse and keyboard
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Mark and delete a region, rather than inserting text
 (delete-selection-mode 1)
 
@@ -111,9 +127,6 @@
 ;;   Downcase: C-x C-l
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
-
-;; avy
-(global-set-key (kbd "C-:") 'avy-goto-char)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Display
@@ -141,33 +154,8 @@
 (global-set-key (kbd "S-C-<down>") 'shrink-window)
 (global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; TabBar mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; tabbar-mode
-(tabbar-mode 1)
-
-; Groups tabs into one of two groups. The first, "meta" includes the scratch
-; buffer, messages, help, processes, etc. The second being "user" tabs, which
-; is everything else, i.e. text files will be in this group.
-(setq tabbar-buffer-groups-function
-      (lambda ()
-        (list (cond ((string-equal "*" (substring (buffer-name) 0 1)) "meta")
-                    ((eq major-mode 'dired-mode) "meta")
-                    (t "user")))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; SrSpeedbar
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(global-set-key (kbd "C-x <") 'sr-speedbar-toggle)
-
-(setq speedbar-show-unknown-files t
-      sr-speedbar-right-side nil
-      sr-speedbar-width-x 200
-      sr-speedbar-delete-windows t
-      sr-speedbar-skip-other-window-p t)
+;; Display line numbers next to the buffer.
+(global-linum-mode t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Buffers
@@ -176,8 +164,13 @@
 ;; Use empty *scratch* buffer
 (setq initial-scratch-message nil)
 
+;; Display tooltips in echo area
+(setq tooltip-use-echo-area t)
+
 ;; iBuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+
+;;(add-to-list 'ibuffer-never-show-predicates "^\\*helm")
 
 (setq ibuffer-formats
       '((mark modified read-only
@@ -200,6 +193,55 @@
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
 
+(use-package ag
+  :pin melpa
+  :ensure t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; TabBar mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; tabbar-mode
+(tabbar-mode 1)
+
+;; Groups tabs into one of two groups. The first, "meta" includes the scratch
+;; buffer, messages, help, processes, etc. The second being "user" tabs, which
+;; is everything else, i.e. text files will be in this group.
+ (setq tabbar-buffer-groups-function
+       (lambda ()
+         (list (cond ((string-equal "*" (substring (buffer-name) 0 1)) "meta")
+                     ((eq major-mode 'dired-mode) "meta")
+                     ((projectile-project-p) (projectile-project-name))
+                     (t "user")))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; SrSpeedbar
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(global-set-key (kbd "C-x <") 'sr-speedbar-toggle)
+
+(setq speedbar-frame-parameters
+      '((minibuffer)
+        (border-width . 0)
+        (left-fringe . 0)
+        (menu-bar-lines . 0)
+        (tool-bar-lines . 0)
+        (unsplittable . t)))
+
+(setq speedbar-hide-button-brackets-flag t
+      speedbar-show-unknown-files t
+      speedbar-smart-directory-expand-flag t
+      speedbar-use-images t
+      sr-speedbar-auto-refresh t
+      sr-speedbar-delete-windows t
+      sr-speedbar-skip-other-window-p t
+      sr-speedbar-right-side nil
+      sr-speedbar-width-x 180)
+
+(add-hook 'speedbar-mode-hook
+          (lambda ()
+            (linum-mode 0)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; multiple-cursors (like IntelliJ)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -209,7 +251,7 @@
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-next-previous-link-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -240,11 +282,15 @@
 ;; Auto close pairs
 (electric-pair-mode)
 
+;; Align
+(global-set-key (kbd "C-x /") 'align-regexp)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Font-locking
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; highlight-symbol
+;; TODO: Don't rebind f3, f4 - these keys are used for keyboard macros
 (global-set-key (kbd "C-<f3>") 'highlight-symbol)
 (global-set-key (kbd "<f3>") 'highlight-symbol-next)
 (global-set-key (kbd "S-<f3>") 'highlight-symbol-prev)
@@ -253,6 +299,15 @@
 ;; Show matching parentheses immediately.
 (show-paren-mode 1)
 (setq show-paren-delay 0)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; flycheck
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (use-package flycheck
+;;   :pin melpa
+;;   :ensure t
+;;   :init (global-flycheck-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; company-mode
@@ -294,7 +349,28 @@
 (setq org-agenda-default-appointment-duration nil)
 (setq org-directory "~/Notes/org/")
 (setq org-log-done 'time)
-(setq org-agenda-files (list "~/Notes/org/notes.org"))
+
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "STARTED(s)" "|" "NOPE(n)" "SOME(m)" "DONE(d)")))
+
+(setq org-todo-keyword-faces
+      '(("TODO" . org-todo)
+        ("STARTED" . "teal")
+        ("NOPE" . "gray")
+        ("SOME" . "yellow")
+        ("DONE" . org-done)))
+
+(org-babel-do-load-languages
+      'org-babel-load-languages
+      '((emacs-lisp . t)
+        (ruby . t)
+        (js . t)
+        (css . t)
+        (sass . t)))
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (linum-mode 0)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; mode-line
@@ -303,14 +379,17 @@
 ;; Display column number next to line number in the mode-line.
 (column-number-mode t)
 
-;; Display line numbers next to the buffer.
-(global-linum-mode t)
-
 ; ;; Smart Mode Line
-; (sml/setup)
+; (setq sml/no-confirm-load-theme t)
 ; (setq sml/theme 'powerline)
-; (setq sml/show-encoding nil)
+; ;(setq sml/show-encoding nil)
 ; (setq sml/shorten-directory t)
+; (sml/setup)
+
+;; Powerline
+(powerline-default-theme)
+
+; (mode-icons-mode t)
 
 ;; GitGutter
 (global-git-gutter-mode t)
@@ -388,7 +467,7 @@
 (setq ruby-deep-indent-paren-style nil)
 (setq ruby-use-smie nil)
 
-(add-to-list 'auto-mode-alist '("\\.rabl\\'" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(rabl\\|jbuilder\\)\\'" . ruby-mode))
 
 ;; Font-locking for pointy lambdas, i.e. `-> (x) { x + 1 }'
 (add-hook 'ruby-mode-hook
@@ -425,6 +504,12 @@
 (add-hook 'haml-mode-hook 'flymake-haml-load)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; YAML
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(add-to-list 'auto-mode-alist '("\\.yml\\.erb\\'" . yaml-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Coffeescript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -440,25 +525,39 @@
 ; Scala
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package ensime
+  :pin melpa-stable
+  :ensure t)
+
+(use-package dockerfile-mode
+  :pin melpa
+  :ensure t)
+
 ;; Ensime (Scala)
-; (require 'ensime)
-; (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
-; (add-hook 'ensime-scala-mode-hook
-;           (lambda ()
-;             (setq debug-on-error t)))
+;; (require 'ensime)
+;; (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+;; (add-hook 'ensime-scala-mode-hook
+;;           (lambda ()
+;;             (setq debug-on-error t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; JavaScript: js2-mode 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; TODO: Integrate with web-mode
-
-;; js2-mode
 (setq js2-basic-offset tab-width)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.json\\'" . js2-mode))
+(setq js2-strict-missing-semi-warning nil)
 
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
+
+(add-to-list 'auto-mode-alist '("\\.es6\\'" . js2-jsx-mode))
+(add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
+
+(use-package json-mode
+  :pin melpa
+  :ensure t)
+
+(setq js-indent-level tab-width)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Emacs Code Browser
@@ -473,3 +572,34 @@
 
 ;; Load theme
 (load-theme 'zenburn t)
+
+(set-fringe-mode '(8 . 0))
+
+(let ((bg   "#4F4F4F")
+      (fg   "#DCDCCC")
+      (bg-1 "#383838"))
+  (set-face-attribute 'header-line nil
+                      :box nil)
+  (set-face-attribute 'tabbar-default nil
+                      :background bg
+                      :foreground bg
+                      :box nil)
+  (set-face-attribute 'tabbar-selected nil
+                      :background bg-1
+                      :foreground fg
+                      :box (list :line-width 5 :color bg-1 :style nil))
+  (set-face-attribute 'tabbar-unselected nil
+                      :inherit 'shadow
+                      :background bg
+                      :box (list :line-width 5 :color bg :style nil))
+  (set-face-attribute 'tabbar-separator nil
+                      :background bg-1
+                      :foreground bg-1
+                      :box nil)
+  (set-face-attribute 'tabbar-highlight nil
+                      :inherit 'tabbar-selected
+                      :underline nil)
+  (set-face-attribute 'linum nil :background (face-attribute 'fringe :background))
+  (set-face-attribute 'mode-line nil :box nil)
+  (set-face-attribute 'mode-line-inactive nil :box nil)
+  (set-face-attribute 'vertical-border nil :foreground bg-1))
