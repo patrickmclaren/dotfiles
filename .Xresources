@@ -1,24 +1,31 @@
 #include "/home/patrick/.base16-monokai.dark.xresources"
 
-emacs.fontbackend:     xft
-emacs.font:            Inconsolata-11
+emacs.fontbackend:       xft
+emacs.font:              Hack-9
 
-URxvt.boldFont:        xft:Inconsolata, xft:Noto Sans, xft:DejaVu Sans Mono, xft:FreeSerif
-URxvt.font:            xft:Inconsolata, xft:Noto Sans, xft:DejaVu Sans Mono, xft:FreeSerif
-URxvt.italicFont:      xft:Inconsolata, xft:Noto Sans, xft:DejaVu Sans Mono, xft:FreeSerif
+URxvt.font:              xft:Hack, xft:Noto Sans, xft:DejaVu Sans Mono, xft:FreeSerif, xft:EmojiOne Color
+URxvt.italicFont:        xft:Hack:Italic, xft:Noto Sans:italic, xft:DejaVu Sans Mono:italic, xft:FreeSerif:italic
+URxvt.boldFont:          xft:Hack:Bold, xft:Noto Sans:bold, xft:DejaVu Sans Mono:bold, xft:FreeSerif:bold
 
-URxvt.fading:          50
-URxvt.jumpScroll:      false
-URxvt.loginShell:      true
-URxvt.scrollBar:       false
-URxvt.secondaryScreen: true
-URxvt.secondaryScroll: false
+URxvt.fading:            50
+URxvt.jumpScroll:        false
+URxvt.loginShell:        true
+URxvt.scrollBar:         false
+URxvt.secondaryScreen:   true
+URxvt.secondaryScroll:   false
 URxvt.skipBuiltinGlyphs: true
 
-Xft.dpi:               96
-Xft.autohint:          false
-Xft.lcdfilter:         default
-Xft.hintstyle:         hintslight
-Xft.hinting:           true
-Xft.antialias:         true
-Xft.rgba:              rgb
+URxvt.transparent:       true
+URxvt.shading:           20
+
+URxvt.colorIT:           #a59f85
+URxvt.colorBD:           #a59f85
+URxvt.colorUL:           #a59f85
+
+Xft.dpi:                 96
+Xft.autohint:            false
+Xft.lcdfilter:           default
+Xft.hintstyle:           hintslight
+Xft.hinting:             true
+Xft.antialias:           true
+Xft.rgba:                rgb

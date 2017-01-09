@@ -57,17 +57,25 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/u
 export PATH="/opt/jdk/bin:$PATH"
 export PATH="/opt/synergy/bin:$PATH"
 export PATH="/opt/soundcloud2000/bin:$PATH"
-export PATH="/usr/local/heroku/bin:$PATH"
 export PATH="/home/patrick/.rbenv/shims:/home/patrick/.rbenv/bin:$PATH"
 export PATH="/home/patrick/bin:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 
-#export SCALA_HOME="/opt/scala"
+export PATH="/opt/scala/bin:$PATH"
+export SCALA_HOME="/opt/scala"
+
+export PATH="/opt/activator/bin:$PATH"
 
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
+
+unalias run-help
+autoload run-help
+autoload run-help-git
+
+alias run-help="nocorrect run-help"
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -99,19 +107,13 @@ fi
 alias fmst="PORT=3000 foreman start"
 
 # Learn about existing aliases
-alias ag="alias G"
+alias alias-grep="alias G"
 
 # Reload config
 alias reload=". ~/.zshrc"
 
-# Play Activator
-#alias activator="/opt/activator/activator"
-
 # View syslogs
 alias jnl="sudo journalctl"
-
-# OCaml Package Manager configuration
-#. /home/patrick/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 # Show latest screenshot
 alias fehsc="feh $(ls -t1 ~ | grep scrot | head -n 1)"
@@ -125,11 +127,11 @@ alias rz="cd `fasd -td -2`"
 alias cgrep="grep --color=always"
 alias regrep="grep -rE"
 
-
 alias zc="zeus start"
 alias zcs="zeus server"
-alias zcsl="zcs -b 127.0.0.1"
+alias zcr="zeus rake"
 alias zcc="zeus console"
+alias zcsl="zcs -b 127.0.0.1"
 alias zct="zeus test"
 alias zctt="zeus rake teaspoon"
 
