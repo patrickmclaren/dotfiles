@@ -1,0 +1,5 @@
+'.platform-win32 atom-text-editor, .platform-linux atom-text-editor':
+  'ctrl-e': 'editor:move-to-end-of-screen-line'
+
+'atom-workspace':
+  'ctrl-shift-M': 'minimap:toggle'

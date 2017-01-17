@@ -1,0 +1,31 @@
+"*":
+  core:
+    packagesWithKeymapsDisabled: [
+      "markdown-preview"
+      "linter"
+    ]
+    telemetryConsent: "no"
+    themes: [
+      "one-dark-ui"
+      "zenburn"
+    ]
+  editor:
+    fontFamily: "Hack"
+    invisibles: {}
+    tabType: "soft"
+  "highlight-selected":
+    lightTheme: true
+  "linter-eslint": {}
+  minimap:
+    displayCodeHighlights: false
+    plugins:
+      "highlight-selected": true
+      "highlight-selectedDecorationsZIndex": 0
+  react:
+    enabledForAllJavascriptFiles: true
+  "tree-view":
+    hideIgnoredNames: true
+    hideVcsIgnoredFiles: true
+  welcome:
+    showOnStartup: false
+  whitespace: {}
