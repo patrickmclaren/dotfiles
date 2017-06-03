@@ -1,13 +1,13 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Customization
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Customization
+;;;;
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Packages
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Packages
+;;;;
 
 (require 'package)
 (setq
@@ -22,15 +22,15 @@
   (package-install 'use-package))
 (require 'use-package)
 
-;; Jump to init.el
+;; Open this file, init.el, in a new buffer
 (global-set-key (kbd "S-C-M-i")
                 (lambda ()
                   (interactive)
                   (find-file "~/.emacs.d/init.el")))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Incremental completion & narrowing
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Incremental completion & narrowing
+;;;;
 
 ;; Helm
 (require 'helm-config)
@@ -51,9 +51,9 @@
 (global-set-key (kbd "C-h r") 'helm-info-emacs)
 (global-set-key (kbd "C-h C-l") 'helm-locate-library)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; History
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; History
+;;;;
 
 ;; Don't keep dirty temp files
 (setq backup-directory-alist
@@ -64,35 +64,35 @@
 ;; Magit
 (global-set-key (kbd "C-x g s") 'magit-status)
 
-; ;; desktop-mode
-; (setq desktop-dirname "~/.emacs.d/desktop"
-;       desktop-base-file-name "emacs.desktop"
-;       desktop-base-lock-name "lock"
-;       desktop-path (list desktop-dirname)
-;       desktop-save t
-;       desktop-auto-save-timeout 5
-;       desktop-load-locked-desktop nil)
-; 
-; (desktop-save-mode 1)
+;; desktop-mode
+;;(setq desktop-dirname "~/.emacs.d/desktop"
+;;      desktop-base-file-name "emacs.desktop"
+;;      desktop-base-lock-name "lock"
+;;      desktop-path (list desktop-dirname)
+;;      desktop-save t
+;;      desktop-auto-save-timeout 5
+;;      desktop-load-locked-desktop nil)
+;;
+;;(desktop-save-mode 1)
 
-; ;; Bookmark+
-; (setq bookmark-default-file "~/.emacs.d/bookmarks"
-;       bmkp-auto-light-when-set 'all-in-buffer
-;       bmkp-auto-light-when-jump 'all-in-buffer
-;       bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks"
-;       bmkp-bmenu-state-file "~/.emacs.d/.emacs-bmk-bmenu-state.el")
+;; Bookmark+
+;;(setq bookmark-default-file "~/.emacs.d/bookmarks"
+;;      bmkp-auto-light-when-set 'all-in-buffer
+;;      bmkp-auto-light-when-jump 'all-in-buffer
+;;      bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks"
+;;      bmkp-bmenu-state-file "~/.emacs.d/.emacs-bmk-bmenu-state.el")
 
-; ;; Recent Files
-; (require 'recentf)
-; (recentf-mode 1)
-; (setq recentf-max-menu-items 25)
-; (global-set-key "\C-x\ \C-r" 'recentf-open-files)
+;; Recent Files
+;;(require 'recentf)
+;;(recentf-mode 1)
+;;(setq recentf-max-menu-items 25)
+;;(global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
 (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Mouse and keyboard
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Mouse and keyboard
+;;;;
 
 ;; Use y/n in place of yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -109,9 +109,9 @@
 ;; avy - jump to text
 (global-set-key (kbd "C-:") 'avy-goto-char)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Mouse and keyboard
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Regions
+;;;;
 
 ;; Mark and delete a region, rather than inserting text
 (delete-selection-mode 1)
@@ -128,9 +128,9 @@
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Display
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Display
+;;;;
 
 ;; Easily move from one window to another.
 ;; Usage: M-<left>|<right>|<up>|<down>
@@ -157,9 +157,9 @@
 ;; Display line numbers next to the buffer.
 (global-linum-mode t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Buffers
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Buffers
+;;;;
 
 ;; Use empty *scratch* buffer
 (setq initial-scratch-message nil)
@@ -197,9 +197,9 @@
   :pin melpa
   :ensure t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; TabBar mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; TabBar mode
+;;;;
 
 ;; tabbar-mode
 (tabbar-mode 1)
@@ -214,9 +214,9 @@
                      ((projectile-project-p) (projectile-project-name))
                      (t "user")))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; SrSpeedbar
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; SrSpeedbar
+;;;;
 
 (global-set-key (kbd "C-x <") 'sr-speedbar-toggle)
 
@@ -242,9 +242,9 @@
           (lambda ()
             (linum-mode 0)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; multiple-cursors (like IntelliJ)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; multiple-cursors (like IntelliJ)
+;;;;
 
 (require 'multiple-cursors)
 
@@ -254,9 +254,9 @@
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Indentation
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Indentation
+;;;;
 
 ;; Use spaces instead of tabs, and set the default indent
 ;; width to be 4 spaces. Need to use setq-default because of
@@ -285,9 +285,9 @@
 ;; Align
 (global-set-key (kbd "C-x /") 'align-regexp)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Font-locking
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Font-locking
+;;;;
 
 ;; highlight-symbol
 ;; TODO: Don't rebind f3, f4 - these keys are used for keyboard macros
@@ -300,18 +300,18 @@
 (show-paren-mode 1)
 (setq show-paren-delay 0)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; flycheck
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; flycheck
+;;;;
 
 ;; (use-package flycheck
 ;;   :pin melpa
 ;;   :ensure t
 ;;   :init (global-flycheck-mode))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; company-mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; company-mode
+;;;;
 
 ;; Setup company-mode
 (add-hook 'after-init-hook 'global-company-mode)
@@ -323,18 +323,18 @@
 ;; Use aspell for spell checking
 (setq-default ispell-program-name "/usr/bin/aspell")
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; yasnippet
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; yasnippet
+;;;;
 
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"
         "~/.emacs.d/yasnippet-snippets"))
 (yas-global-mode 1)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; org-mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; org-mode
+;;;;
 
 ;; Setup org-mode
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
@@ -347,7 +347,7 @@
 
 (setq org-startup-indented t)
 (setq org-agenda-default-appointment-duration nil)
-(setq org-directory "~/Notes/org/")
+(setq org-directory "~/Documents/org/")
 (setq org-log-done 'time)
 
 (setq org-todo-keywords
@@ -372,47 +372,47 @@
           (lambda ()
             (linum-mode 0)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; mode-line
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; mode-line
+;;;;
 
 ;; Display column number next to line number in the mode-line.
 (column-number-mode t)
 
-; ;; Smart Mode Line
-; (setq sml/no-confirm-load-theme t)
-; (setq sml/theme 'powerline)
-; ;(setq sml/show-encoding nil)
-; (setq sml/shorten-directory t)
-; (sml/setup)
+;; Smart Mode Line
+;;(setq sml/no-confirm-load-theme t)
+;;(setq sml/theme 'powerline)
+;;;(setq sml/show-encoding nil)
+;;(setq sml/shorten-directory t)
+;;(sml/setup)
 
 ;; Powerline
 (powerline-default-theme)
 
-; (mode-icons-mode t)
+;;(mode-icons-mode t)
 
 ;; GitGutter
 (global-git-gutter-mode t)
 (git-gutter:linum-setup)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Python
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Python
+;;;;
 
 ;; Load up-to-date python-mode
 (setq py-install-directory "~/.emacs.d/python-mode")
 (add-to-list 'load-path py-install-directory)
 (require 'python-mode)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; scss-mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; scss-mode
+;;;;
 
 (add-to-list 'auto-mode-alist '("\\.scss\\.erb\\'" . scss-mode))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; web-mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; web-mode
+;;;;
 
 ;; Setup web-mode
 (require 'web-mode)
@@ -434,11 +434,11 @@
                   web-mode-code-indent-offset   tab-width)))
 
 (setq web-mode-content-types-alist
-      '(("handlebars" . ".*merchant_dashboard/app/assets/javascripts/.*\\.hbs\\.erb\\'")))
+      '(("handlebars" . ".*Privy/app/assets/javascripts/.*\\.hbs\\.erb\\'")))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Ruby
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Ruby
+;;;;
 
 (add-to-list 'hs-special-modes-alist
 	     '(ruby-mode
@@ -446,20 +446,20 @@
 	       (lambda (arg) (ruby-end-of-block)) nil))
 
 ;; Fix Ruby Indentation
-; (defadvice ruby-indent-line (after unindent-closing-paren activate)
-;   (let ((column (current-column))
-;         indent offset)
-;     (save-excursion
-;       (back-to-indentation)
-;       (let ((state (syntax-ppss)))
-;         (setq offset (- column (current-column)))
-;         (when (and (eq (char-after) ?\))
-;                    (not (zerop (car state))))
-;           (goto-char (cadr state))
-;           (setq indent (current-indentation)))))
-;     (when indent
-;       (indent-line-to indent)
-;       (when (> offset 0) (forward-char offset)))))
+;;(defadvice ruby-indent-line (after unindent-closing-paren activate)
+;;  (let ((column (current-column))
+;;        indent offset)
+;;    (save-excursion
+;;      (back-to-indentation)
+;;      (let ((state (syntax-ppss)))
+;;        (setq offset (- column (current-column)))
+;;        (when (and (eq (char-after) ?\))
+;;                   (not (zerop (car state))))
+;;          (goto-char (cadr state))
+;;          (setq indent (current-indentation)))))
+;;    (when indent
+;;      (indent-line-to indent)
+;;      (when (> offset 0) (forward-char offset)))))
 
 (setq ruby-insert-encoding-magic-comment nil)
 
@@ -497,21 +497,21 @@
 
 (advice-add 'inf-ruby-console-rails :override #'inf-ruby-console-rails-with-zeus)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; HAML
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; HAML
+;;;;
 
 (add-hook 'haml-mode-hook 'flymake-haml-load)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; YAML
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; YAML
+;;;;
 
 (add-to-list 'auto-mode-alist '("\\.yml\\.erb\\'" . yaml-mode))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Coffeescript
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Coffeescript
+;;;;
 
 (add-to-list 'auto-mode-alist '("\\.coffee.*\\'" . coffee-mode))
 
@@ -521,28 +521,32 @@
           (lambda ()
             (auto-fill-mode 0)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Scala
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Scala
+;;;;
 
 (use-package ensime
   :pin melpa-stable
   :ensure t)
+
+;;;;
+;;;; Docker
+;;;;
 
 (use-package dockerfile-mode
   :pin melpa
   :ensure t)
 
 ;; Ensime (Scala)
-;; (require 'ensime)
-;; (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
-;; (add-hook 'ensime-scala-mode-hook
-;;           (lambda ()
-;;             (setq debug-on-error t)))
+;;(require 'ensime)
+;;(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+;;(add-hook 'ensime-scala-mode-hook
+;;          (lambda ()
+;;            (setq debug-on-error t)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; JavaScript: js2-mode 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; JavaScript: js2-mode
+;;;;
 
 (setq js2-basic-offset tab-width)
 (setq js2-strict-missing-semi-warning nil)
@@ -559,22 +563,31 @@
 
 (setq js-indent-level tab-width)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Emacs Code Browser
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Emacs Code Browser
+;;;;
 
 (add-to-list 'load-path "~/.emacs.d/ecb")
 (require 'ecb)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Theming
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;
+;;;; Theming
+;;;;
 
 ;; Load theme
 (load-theme 'zenburn t)
 
+;; Emojify
+(use-package emojify
+  :pin melpa
+  :ensure t)
+
+(global-emojify-mode t)
+
+;; TODO(patrick): Document this
 (set-fringe-mode '(8 . 0))
 
+;; TODO(patrick): Document this
 (let ((bg   "#4F4F4F")
       (fg   "#DCDCCC")
       (bg-1 "#383838"))

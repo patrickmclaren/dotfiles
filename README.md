@@ -1,2 +1,2 @@
 # dotfiles
-My shareable (non-private) dotfiles
+dotfiles for getting things done
